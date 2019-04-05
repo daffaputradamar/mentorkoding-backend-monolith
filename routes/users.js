@@ -2,8 +2,11 @@ const express = require("express")
 const router = express.Router()
 const userController = require("../controllers/users")
 
+const authService = require('../middlewares/authService')
+
 router.get("/", userController.index)
 router.get("/:_id", userController.show)
+router.get("/profile", authService, userController.profile)
 router.post("/", userController.store)
 router.put("/:_id", userController.update)
 router.delete("/:_id", userController.destroy)
