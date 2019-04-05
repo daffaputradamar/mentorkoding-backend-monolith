@@ -20,21 +20,20 @@ module.exports = {
             .catch(err => console.log(err))
     },
     store: (req, res) => {
-        let { meetup } = req.body
-        console.log(req.user)
+        let meetup = req.body
         meetup.student = req.user._id
         Meetup.create(meetup)
             .then(meetup => res.json(meetup))
             .catch(err => console.log(err))
     },
     update: (req, res) => {
-        const { meetup } = req.body
+        const meetup = req.body
         const { _id } = req.params
         Meetup.findOneAndUpdate({ _id }, { $set: meetup }, {new: true})
             .then(meetup => res.json(meetup))
             .catch(err => console.log(err))
     },
-      destroy: (req, res) => {
+    destroy: (req, res) => {
         Meetup.findOneAndDelete({ _id: req.params._id })
             .then(() => res.sendStatus(204))
             .catch((err) => console.log(err))

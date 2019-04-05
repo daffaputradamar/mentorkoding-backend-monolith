@@ -32,20 +32,19 @@ module.exports = {
     res.json(await User.findById(req.params._id))
   },
   store: async (req, res) => {
-    let { user } = req.body
+    let user = req.body
     user.password = await createHash(user.password)
     res.json(await User.create(user))
   },
   update: async (req, res) => {
-    const { user } = req.body
     const { _id } = req.params
-    res.json(await User.findOneAndUpdate({ _id }, { $set: user }, {new: true}))
+    res.json(await User.findOneAndUpdate({ _id }, { $set: req.body }, {new: true}))
   },
   destroy: async (req, res) => {
     res.json(await User.findOneAndDelete({ _id: req.params._id }))
   },
   authenticate: async (req, res) => {
-    let { user } = req.body
+    let user = req.body
     userFromDb = await User.findOne({ username: user.username })
     let isMatch = await isPasswordMatch(user.password, userFromDb.password) ? true : false
     if (isMatch) {
