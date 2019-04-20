@@ -4,7 +4,9 @@ const Chatroom = require('../models/Chatroom')
 module.exports = {
     index: (req, res) => {
         const { user } = req.body
-        Chatroom.find({ users: {"$in": user } })
+        const userLogin = req.user._id
+        const userArray = [ user, userLogin ]
+        Chatroom.find({ users: {"$in": userArray } })
             .then(chatroom => {
                 res.json(chatroom)
             })
@@ -18,7 +20,9 @@ module.exports = {
     },
     store: (req, res) => {
         const { user } = req.body
-        Chatroom.find({ users: {"$in": user } })
+        const userLogin = req.user._id
+        const userArray = [ user, userLogin ]
+        Chatroom.find({ users: {"$in": userArray } })
             .then(chatroom => {
                 if (!chatroom) {
                     Chatroom.create({
