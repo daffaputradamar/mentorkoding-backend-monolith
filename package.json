@@ -16,7 +16,7 @@
     "mongoose": "*",
     "multer": "^1.4.1"
   },
-  "author": "Brad Traversy",
+  "author": "Daffa Akbar",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^1.18.9"
