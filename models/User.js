@@ -71,6 +71,7 @@ const UserSchema = new Schema({
   projects: {
     type: [{
       name: String,
+      description: String,
       linkProject: String
     }],
     default: []

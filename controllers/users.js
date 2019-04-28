@@ -65,5 +65,8 @@ module.exports = {
   },
   profile: async (req, res) => {
     res.json(await User.findById(req.user._id))    
+  },
+  updateProfile: async (req, res) => {
+    res.json(await User.findOneAndUpdate({_id: req.user._id}, { $set: req.body }, {new: true}))
   }
 }
