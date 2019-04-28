@@ -61,7 +61,11 @@ const UserSchema = new Schema({
     }
   },
   educations: {
-    type: [String],
+    type: [{
+      name: String,
+      dateIn: Date,
+      dateOut: Date
+    }],
     default: []
   },
   skills: {
