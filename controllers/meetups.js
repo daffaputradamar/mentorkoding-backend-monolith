@@ -2,13 +2,13 @@ const Meetup = require('../models/Meetup')
 
 module.exports = {
     index: (req, res) => {
-        let isConfirmed = req.params.isConfirmed
         Meetup.find({
-            $or: [{ mentor: req.user._id }, { student: req.user._id }],
-            isConfirmed 
+            $or: [{ mentor: req.user._id }, { student: req.user._id }]
         })
+            .sort({date: -1})
             .populate("student")
             .populate("mentor")
+            .exec()
             .then(meetups => res.json(meetups))
             .catch(err => console.log(err))
     },
