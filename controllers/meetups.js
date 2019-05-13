@@ -3,7 +3,8 @@ const Meetup = require('../models/Meetup')
 module.exports = {
     index: (req, res) => {
         Meetup.find({
-            $or: [{ mentor: req.user._id }, { student: req.user._id }]
+            $or: [{ mentor: req.user._id }, { student: req.user._id }],
+            isFinished: false
         })
             .sort({date: -1})
             .populate("student")
