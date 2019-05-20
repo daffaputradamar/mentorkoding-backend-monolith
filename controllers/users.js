@@ -26,10 +26,10 @@ function signJWT(payload) {
 
 module.exports = {
   index: async (req, res) => {
-    res.json(await User.find())
+    res.json(await User.find().populate('reviews.user'))
   },
   show: async (req, res) => {
-    res.json(await User.findById(req.params._id))
+    res.json(await User.findById(req.params._id).populate('reviews.user'))
   },
   store: async (req, res) => {
     let user = req.body
@@ -64,7 +64,7 @@ module.exports = {
     res.json(await User.find({ skills: { "$in": skill}, isMentor: true }))
   },
   profile: async (req, res) => {
-    res.json(await User.findById(req.user._id))    
+    res.json(await User.findById(req.user._id))
   },
   updateProfile: async (req, res) => {
     res.json(await User.findOneAndUpdate({_id: req.user._id}, { $set: req.body }, {new: true}))
