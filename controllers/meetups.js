@@ -13,6 +13,18 @@ module.exports = {
             .then(meetups => res.json(meetups))
             .catch(err => console.log(err))
     },
+    indexFinished: (req, res) => {
+        Meetup.find({
+            $or: [{ mentor: req.user._id }, { student: req.user._id }],
+            isFinished: true
+        })
+            .sort({date: -1})
+            .populate("student")
+            .populate("mentor")
+            .exec()
+            .then(meetups => res.json(meetups))
+            .catch(err => console.log(err))
+    },
     show: (req, res) => {
         Meetup.findById(req.params._id)
             .populate("student")

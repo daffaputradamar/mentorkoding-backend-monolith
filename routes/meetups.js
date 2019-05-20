@@ -6,6 +6,7 @@ const authService = require('../middlewares/authService')
 
 router.use(authService)
 router.get("/", meetupController.index)
+router.get("/finished", meetupController.indexFinished)
 router.get("/:_id", meetupController.show)
 router.post("/", meetupController.store)
 router.put("/:_id", meetupController.update)
