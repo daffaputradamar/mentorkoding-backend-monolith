@@ -1,4 +1,31 @@
 const Meetup = require('../models/Meetup')
+const nodemailer = require('nodemailer')
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: `${process.env.EMAIL_USER}`,
+        pass: `${process.env.EMAIL_PASS}`
+    }
+})
+
+function sendMail(email) {
+    const mailOptions = {
+        from: `${process.env.EMAIL_USER}`,
+        to: email,
+        subject: "Mentor Koding Meetup Notification",
+        text: "Hey check out your wait list"
+    }
+    return new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(info.response)
+            }
+        })
+    })
+}
 
 module.exports = {
     index: (req, res) => {
@@ -36,7 +63,10 @@ module.exports = {
         let meetup = req.body
         meetup.student = req.user._id
         Meetup.create(meetup)
-            .then(meetup => res.json(meetup))
+            .then(meetup => {
+                sendMail("daffaputradamar@gmail.com")
+                    .then(response => res.json(meetup))
+            })
             .catch(err => console.log(err))
     },
     update: (req, res) => {
