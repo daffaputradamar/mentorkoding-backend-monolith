@@ -1,4 +1,5 @@
 const Meetup = require('../models/Meetup')
+const User = require('../models/User')
 const nodemailer = require('nodemailer')
 
 const transporter = nodemailer.createTransport({
@@ -64,7 +65,10 @@ module.exports = {
         meetup.student = req.user._id
         Meetup.create(meetup)
             .then(meetup => {
-                sendMail("daffaputradamar@gmail.com")
+                User.findById(meetup.mentor)
+                    .then(user => {
+                        return sendMail(user.email)
+                    })
                     .then(response => res.json(meetup))
             })
             .catch(err => console.log(err))
